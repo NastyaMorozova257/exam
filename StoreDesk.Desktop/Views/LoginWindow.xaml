@@ -1,0 +1,66 @@
+<Window x:Class="StoreDesk.Desktop.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:StoreDesk.Desktop.ViewModels"
+        Title="Доступ в систему" Height="720" Width="960"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+        Background="{StaticResource BackgroundBrush}"
+        FontFamily="{StaticResource AppFont}">
+    <Window.DataContext><vm:LoginViewModel/></Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.42*"/>
+            <ColumnDefinition Width="0.58*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Левая панель -->
+        <Border Grid.Column="0" Background="{StaticResource SidebarBrush}" Padding="48,60">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Склад и заказы" FontSize="32" FontWeight="Bold" Foreground="White" Margin="0,0,0,16"/>
+                <TextBlock Text="Учёт товаров, категорий и заказов" FontSize="16" Foreground="#B2BEC3" Margin="0,0,0,48"/>
+                <Border Width="80" Height="4" Background="{StaticResource AccentBrush}" CornerRadius="2" HorizontalAlignment="Left" Margin="0,0,0,24"/>
+                <TextBlock Text="Войдите под учётной записью или откройте просмотр без входа." FontSize="14" Foreground="#95A5A6" TextWrapping="Wrap" MaxWidth="320"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Правая панель: форма -->
+        <Grid Grid.Column="1" Margin="56,80,56,80">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Вход в систему" FontSize="28" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,40"/>
+
+            <StackPanel Grid.Row="1">
+                <TextBlock Text="Имя входа" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+                <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxStyle}" Margin="0,0,0,24"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2">
+                <TextBlock Text="Пароль" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+                <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="2" Background="{StaticResource SurfaceBrush}" Padding="2">
+                    <PasswordBox x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged"
+                                Style="{StaticResource PasswordBoxStyle}" BorderThickness="0" Background="Transparent"/>
+                </Border>
+            </StackPanel>
+
+            <TextBlock Grid.Row="3" Text="{Binding ErrorMessage}" Foreground="{StaticResource AccentBrush}" TextWrapping="Wrap" Margin="0,20,0,0"
+                       Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" FontSize="13"/>
+
+            <Button Grid.Row="4" Content="Войти" Command="{Binding LoginCommand}" Style="{StaticResource PrimaryButton}"
+                    VerticalAlignment="Top" Margin="0,28,0,0" HorizontalAlignment="Left" MinWidth="200"/>
+
+            <Border Grid.Row="5" Background="#EDEDF2" Padding="24,20" Margin="0,32,0,0" CornerRadius="8">
+                <Button Content="Открыть без входа (только просмотр)" Command="{Binding GuestLoginCommand}"
+                        HorizontalAlignment="Stretch" Padding="24,16" FontSize="14" Background="Transparent"
+                        Foreground="{StaticResource PrimaryBrush}" BorderThickness="0" Cursor="Hand"
+                        FontWeight="SemiBold"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
